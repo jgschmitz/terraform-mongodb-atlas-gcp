@@ -3,7 +3,6 @@
 ##################
 atlas_public_key  = "my-atlas-public-key"
 atlas_private_key = "my-atras-private-key"
-atlas_booster_kit 
 #################
 # MongoDB Atlas #
 #################
