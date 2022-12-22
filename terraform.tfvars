@@ -12,4 +12,4 @@ environment = "dev"
 cluster_instance_size_name = "M10"
 cluster_location = "WESTERN_EUROPE"
 whitelist_list_cidr = ["200.171.171.0/24", "200.171.172.0/24"]
-whitelist_alt_cidr =
+whitelist_alt_cidr
