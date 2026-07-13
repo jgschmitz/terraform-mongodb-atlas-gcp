@@ -1,144 +1,203 @@
-# Terraform MongoDB Atlas on GCP
+# 🚀 Terraform MongoDB Atlas on Google Cloud
 
-Terraform configuration for provisioning a **MongoDB Atlas cluster on
-Google Cloud Platform (GCP)** along with core Atlas resources such as a
-project, database user, and IP access list.
+Provision a complete **MongoDB Atlas environment on Google Cloud Platform (GCP)** using **Terraform**.
 
-This repository demonstrates how to manage **MongoDB Atlas
-infrastructure using Terraform**.
+This repository demonstrates Infrastructure as Code (IaC) best practices for deploying and managing MongoDB Atlas resources including projects, clusters, database users, and network access controls.
 
-------------------------------------------------------------------------
+---
 
-## Architecture
+## ✨ Features
 
-This configuration provisions the following resources in MongoDB Atlas:
+- 🏗️ Create a MongoDB Atlas Project
+- ☁️ Deploy Atlas Clusters on Google Cloud
+- 👤 Create Database Users
+- 🔒 Configure IP Access Lists
+- ⚙️ Fully declarative Infrastructure as Code
+- 🔄 Easy to reproduce across Development, Test, and Production environments
 
--   Atlas Project
--   MongoDB Atlas Cluster (GCP)
--   Database User
--   Network Access List / IP Whitelist
+---
 
-Terraform uses the **MongoDB Atlas Terraform Provider** to manage these
-resources.
+# Architecture
 
-------------------------------------------------------------------------
-
-## Prerequisites
-
-Before using this configuration you need:
-
--   Terraform ≥ 1.0
--   MongoDB Atlas account
--   MongoDB Atlas API keys
--   GCP account (for cluster hosting)
-
-Generate Atlas API keys:
-
-Atlas Console → Organization Settings → Access Manager → API Keys
-
-Export credentials as environment variables:
-
-``` bash
-export MONGODB_ATLAS_PUBLIC_KEY="your-public-key"
-export MONGODB_ATLAS_PRIVATE_KEY="your-private-key"
+```text
+                     Terraform
+                         │
+                         ▼
+             MongoDB Atlas Provider
+                         │
+     ┌───────────────────┼───────────────────┐
+     ▼                   ▼                   ▼
+Atlas Project      Atlas Cluster      Database User
+     │
+     ▼
+Network Access List
 ```
 
-------------------------------------------------------------------------
+---
 
-## Repository Structure
+# Repository Structure
 
-    .
-    ├── provider.main.tf        # Terraform provider configuration
-    ├── provider-variables.tf   # Provider credential variables
-    ├── atlas-main.tf           # Atlas resources
-    ├── atlas_variables.tf      # Cluster + project variables
-    ├── terraform-tfvars.tf     # Default variable values
+```text
+.
+├── atlas-main.tf              # Atlas resources
+├── atlas_variables.tf         # Project and cluster variables
+├── provider.main.tf           # Terraform provider configuration
+├── provider-variables.tf      # Atlas API credentials
+├── terraform.tfvars           # Example variables
+└── README.md
+```
 
-------------------------------------------------------------------------
+---
 
-## Quick Start
+# Prerequisites
 
-Clone the repository:
+Before getting started, ensure you have:
 
-``` bash
+- Terraform 1.0 or newer
+- MongoDB Atlas Account
+- MongoDB Atlas Organization API Keys
+- Google Cloud account
+
+---
+
+# MongoDB Atlas API Keys
+
+Generate API keys from:
+
+```
+Atlas
+└── Organization Settings
+    └── Access Manager
+        └── API Keys
+```
+
+Export your credentials as environment variables.
+
+```bash
+export MONGODB_ATLAS_PUBLIC_KEY="YOUR_PUBLIC_KEY"
+export MONGODB_ATLAS_PRIVATE_KEY="YOUR_PRIVATE_KEY"
+```
+
+---
+
+# Quick Start
+
+## Clone the Repository
+
+```bash
 git clone https://github.com/jgschmitz/terraform-mongodb-atlas-gcp.git
+
 cd terraform-mongodb-atlas-gcp
 ```
 
-Initialize Terraform:
+## Initialize Terraform
 
-``` bash
+```bash
 terraform init
 ```
 
-Preview infrastructure changes:
+## Review the Deployment
 
-``` bash
+```bash
 terraform plan
 ```
 
-Deploy infrastructure:
+## Deploy
 
-``` bash
+```bash
 terraform apply
 ```
 
-Destroy resources when finished:
+Terraform will create all configured MongoDB Atlas resources.
 
-``` bash
+---
+
+# Destroy Resources
+
+To remove all deployed infrastructure:
+
+```bash
 terraform destroy
 ```
 
-------------------------------------------------------------------------
+---
 
-## Example terraform.tfvars
+# Example terraform.tfvars
 
-``` hcl
-atlas_org_id           = "YOUR_ORG_ID"
-atlas_project_name     = "example-project"
-atlas_region           = "us-central1"
-cluster_instance_size  = "M10"
-db_username            = "app-user"
-whitelist_list_cidr    = ["0.0.0.0/0"]
+```hcl
+atlas_org_id         = "YOUR_ORG_ID"
+atlas_project_name   = "terraform-demo"
+
+atlas_region         = "us-central1"
+
+cluster_instance_size = "M10"
+
+db_username = "app-user"
+
+whitelist_list_cidr = [
+  "0.0.0.0/0"
+]
 ```
 
-------------------------------------------------------------------------
+---
 
-## Resources Created
+# Resources Created
 
-Running Terraform will provision:
+Running this configuration provisions:
 
--   MongoDB Atlas project
--   MongoDB cluster running on GCP
--   Database user
--   IP access list entry
+| Resource | Description |
+|----------|-------------|
+| Atlas Project | Creates a MongoDB Atlas Project |
+| Atlas Cluster | Deploys an Atlas Cluster on Google Cloud |
+| Database User | Creates an application database user |
+| IP Access List | Configures network access rules |
 
-------------------------------------------------------------------------
+---
 
-## Security Notes
+# Security Best Practices
 
--   Never commit API keys or secrets
--   Use environment variables or a secret manager
--   Restrict IP access lists whenever possible
+- Never commit API keys to source control.
+- Use environment variables or a secrets manager.
+- Limit IP Access Lists to trusted CIDR ranges.
+- Use least-privilege Atlas API keys.
+- Store Terraform state securely (Terraform Cloud, GCS, etc.).
 
-------------------------------------------------------------------------
+---
 
-## References
+# Terraform Workflow
 
--   MongoDB Atlas Terraform Provider
--   MongoDB Atlas API Documentation
--   Terraform Registry
+```text
+terraform init
+        │
+        ▼
+terraform plan
+        │
+        ▼
+terraform apply
+        │
+        ▼
+ MongoDB Atlas Resources
+```
 
-------------------------------------------------------------------------
+---
 
-## Repository Status
+# Useful Documentation
 
-⚠️ This repository was originally created as an experiment / reference
-implementation.\
-Some Terraform provider versions or patterns may be outdated.
+- MongoDB Atlas Terraform Provider
+- Terraform Registry
+- MongoDB Atlas Documentation
+- MongoDB Atlas Administration API
 
-------------------------------------------------------------------------
+---
 
-## License
+# Contributing
 
-MIT
+Contributions, bug reports, and feature requests are welcome.
+
+Feel free to submit a Pull Request or open an Issue.
+
+---
+
+# License
+
+Licensed under the MIT License.
